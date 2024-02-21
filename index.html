@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý thông tin sinh viên</title>
+</head>
+<body>
+    <h2>Quản lý thông tin sinh viên</h2>
+
+    <label for="inputQuantity">Nhập số lượng sinh viên:</label>
+    <input type="number" id="inputQuantity">
+    <button onclick="inputStudents()">Nhập</button>
+
+    <button onclick="displayStudents()">Hiển thị thông tin sinh viên</button>
+
+    <div id="studentInfo" style="display: none;">
+        <h3>Thông tin sinh viên:</h3>
+        <div id="studentList"></div>
+    </div>
+
+    <script>
+        class Student {
+            constructor(id, fullName, dob, className, gpa) {
+                this.id = id;
+                this.fullName = fullName;
+                this.dob = dob;
+                this.className = className;
+                this.gpa = gpa;
+            }
+
+            updateFullName(fullName) {
+                this.fullName = fullName;
+            }
+
+            updateDOB(dob) {
+                this.dob = dob;
+            }
+
+            updateClassName(className) {
+                this.className = className;
+            }
+
+            updateGPA(gpa) {
+                this.gpa = gpa;
+            }
+        }
+
+        let students = [];
+
+        function inputStudents() {
+            const quantity = parseInt(document.getElementById("inputQuantity").value);
+            students = [];
+
+            for (let i = 1; i <= quantity; i++) {
+                const id = i;
+                const fullName = prompt(`Nhập họ và tên của sinh viên ${i}:`);
+                const dob = prompt(`Nhập ngày tháng năm sinh của sinh viên ${i} (YYYY-MM-DD):`);
+                const className = prompt(`Nhập lớp học của sinh viên ${i}:`);
+                const gpa = parseFloat(prompt(`Nhập điểm GPA của sinh viên ${i}:`));
+
+                students.push(new Student(id, fullName, dob, className, gpa));
+            }
+
+            document.getElementById("studentInfo").style.display = "block";
+        }
+
+        function displayStudents() {
+            const studentList = document.getElementById("studentList");
+            studentList.innerHTML = "";
+
+            students.forEach(student => {
+                const studentInfo = document.createElement("div");
+                studentInfo.innerHTML = `
+                    <p><strong>Mã SV:</strong> ${student.id}</p>
+                    <p><strong>Họ và tên:</strong> ${student.fullName}</p>
+                    <p><strong>Ngày tháng năm sinh:</strong> ${student.dob}</p>
+                    <p><strong>Lớp học:</strong> ${student.className}</p>
+                    <p><strong>Điểm GPA:</strong> ${student.gpa}</p>
+                `;
+                studentList.appendChild(studentInfo);
+            });
+        }
+    </script>
+</body>
+</html>
